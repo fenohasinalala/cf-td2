@@ -9,34 +9,35 @@ Resources:
       AllocatedStorage: 5
       DBInstanceClass: db.t2.micro
       Engine: postgres
-      MasterUsername: '{{resolve:ssm:/td2/rds/user-name:1}}'
-      MasterUserPassword: '{{resolve:ssm:/td2/rds/password:1}}'
+      EngineVersion: 10
+      MasterUsername: '{{resolve:ssm:/td2/rds/user-name}}'
+      MasterUserPassword: '{{resolve:ssm:/td2/rds/password}}'
 
 
   DBEndpointAddressSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: db-url !Join [ '', [ '/td2/rds/' , 'db-endpoint-address' ] ]
+      Name: !Join [ '', [ '/td2/rds/' , 'db-endpoint-address' ] ]
       Type: String
       Value: !GetAtt MyRDS.Endpoint.Address
 
   DBEndpointPortSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: db-url !Join [ '', [ '/td2/rds/' , 'db-endpoint-port' ] ]
+      Name: !Join [ '', [ '/td2/rds/' , 'db-endpoint-port' ] ]
       Type: String
       Value: !GetAtt MyRDS.Endpoint.Port
 
   DBNameSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: db-url !Join [ '', [ '/td2/rds/' , 'db-name' ] ]
+      Name: !Join [ '', [ '/td2/rds/' , 'db-name' ] ]
       Type: String
       Value: !Ref MyRDS
 
   DBUrlSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: db-url
+      Name: !Join [ '', [ '/td2/rds/' , 'db-url' ] ]
       Type: String
       Value: !Join [ '', [ 'jdbc:postgresql://' , !GetAtt MyRDS.Endpoint.Address, '.' , !GetAtt MyRDS.Endpoint.Port , '/' , !Ref MyRDS ] ]
