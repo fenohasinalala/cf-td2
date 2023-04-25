@@ -12,6 +12,28 @@ Resources:
       MasterUsername: '{{resolve:ssm:/td2/rds/user-name:1}}'
       MasterUserPassword: '{{resolve:ssm:/td2/rds/password:1}}'
 
+
+  DBEndpointAddressSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: db-url !Join [ '', [ '/td2/rds/' , 'db-endpoint-address' ] ]
+      Type: String
+      Value: !GetAtt MyRDS.Endpoint.Address
+
+  DBEndpointPortSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: db-url !Join [ '', [ '/td2/rds/' , 'db-endpoint-port' ] ]
+      Type: String
+      Value: !GetAtt MyRDS.Endpoint.Port
+
+  DBNameSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: db-url !Join [ '', [ '/td2/rds/' , 'db-name' ] ]
+      Type: String
+      Value: !Ref MyRDS
+
   DBUrlSSM:
     Type: AWS::SSM::Parameter
     Properties:
